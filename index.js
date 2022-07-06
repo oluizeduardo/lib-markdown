@@ -7,11 +7,22 @@ function treatError(error){
 	throw new Error(chalk.red(error.code, `There's no file in this path.`));
 }
 
+function extractLinks(text){
+	const regex = /\[([^\]]*)\]\((https?:\/\/[^$#\s].[^\s]*)\)/gm;
+	const arrayResult = [];
+	let temp;
+
+	while((temp = regex.exec(text)) !== null){
+		arrayResult.push({[temp[1]]:[temp[2]]});
+	}
+	return arrayResult;
+}
+
 async function readFile(filePath){
 	const encoding = 'utf-8';
 	try {
 		const text = await fs.promises.readFile(filePath, encoding);
-		log(chalk.green(text));
+		log(extractLinks(text));
 	} catch (error) {
 		treatError(error);
 	}
