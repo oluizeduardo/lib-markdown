@@ -7,12 +7,22 @@ function treatError(error){
 	throw new Error(chalk.red(error.code, `There's no file in this path.`));
 }
 
-function readFile(filePath){
+async function readFile(filePath){
 	const encoding = 'utf-8';
-	fs.promises.readFile(filePath, encoding)
-		.then((text) => log(chalk.green(text)))
-		.catch((error) => treatError(error));
+	try {
+		const text = await fs.promises.readFile(filePath, encoding);
+		log(chalk.green(text));
+	} catch (error) {
+		treatError(error);
+	}
 }
+
+// function readFile(filePath){
+// 	const encoding = 'utf-8';
+// 	fs.promises.readFile(filePath, encoding)
+// 		.then((text) => log(chalk.green(text)))
+// 		.catch((error) => treatError(error));
+// }
 
 // function readFile(filePath){
 // 	const encoding = 'utf-8';
