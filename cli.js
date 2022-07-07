@@ -8,7 +8,7 @@ async function processText(filePath) {
     const result = await readFile(filePath[2]);
 
     if(filePath[3] === 'validate'){
-        console.log(chalk.blue('list of links:'), validateURLs(result));
+        console.log(chalk.blue('list of links:'), await validateURLs(result));
     }else{
         console.log(chalk.yellow('list of links:'), result);
     }
