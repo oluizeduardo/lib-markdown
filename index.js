@@ -15,14 +15,17 @@ function extractLinks(text){
 	while((temp = regex.exec(text)) !== null){
 		arrayResult.push({[temp[1]]:[temp[2]]});
 	}
+	if(arrayResult.length === 0){
+		return `No valid links found.`;
+	}
 	return arrayResult;
 }
 
-async function readFile(filePath){
+export default async function readFile(filePath){
 	const encoding = 'utf-8';
 	try {
 		const text = await fs.promises.readFile(filePath, encoding);
-		log(extractLinks(text));
+		return extractLinks(text);
 	} catch (error) {
 		treatError(error);
 	}
@@ -45,4 +48,4 @@ async function readFile(filePath){
 // 	});
 // }
 
-readFile('./files/texto1.md');
+// readFile('./files/texto1.md');
